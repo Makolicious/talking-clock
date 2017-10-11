@@ -45,6 +45,34 @@ namespace talking_clock
                     {
                         timeOutput += " O'Clock";
                     }
+                    else if (Enumerable.Range(1, 9).Contains(timeMinute))
+                    {
+                        timeOutput += " oh " + ones[timeMinute];
+                    }
+                    else if (Enumerable.Range(10, 19).Contains(timeMinute))
+                    {
+                        timeOutput += " " + ones[timeMinute];
+                    }
+                    else if (Enumerable.Range(20, 59).Contains(timeMinute))
+                    {
+                        if (timeMinute % 10 == 0)
+                        {
+                            timeOutput += " " + tens[timeMinute / 10];
+                        }
+                        else
+                        {
+                            timeOutput += " " + tens[(timeMinute - (timeMinute % 10)) / 10] + " " + ones[timeMinute % 10];
+                        }
+                    }
+
+                    if (isMorning != true)
+                    {
+                        timeOutput += " PM.";
+                    }
+                    else
+                    {
+                        timeOutput += " AM.";
+                    }
                     Console.WriteLine(timeOutput);
                     goto start;
                 }
