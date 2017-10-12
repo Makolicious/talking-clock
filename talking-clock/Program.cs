@@ -11,79 +11,71 @@ namespace talking_clock
         private static string[] ones = {"Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine","Ten",
                                         "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
 
-        private static string[] tens = {"Zero", "Ten", "Twenty", "Thirty", "Forty", "Fifty"};
+        private static string[] tens = { "Zero", "Ten", "Twenty", "Thirty", "Forty", "Fifty" };
 
         static void Main(string[] args)
         {
-            start:
             Console.WriteLine("Enter a time in the format <hh>:<mm>");
+
+        start:
             int timeHour;
             int timeMinute;
+            int stringLength = 5;
             bool isMorning = true;
             string timeOutput = "The time is ";
             string userInput = Console.ReadLine();
 
             try
             {
-                timeHour = Int32.Parse(userInput.Substring(0,2));
-                timeMinute = Int32.Parse(userInput.Substring(3));
-                if (Enumerable.Range(0,23).Contains(timeHour) && Enumerable.Range(0,59).Contains(timeMinute))
+                if (userInput.Length != stringLength || userInput.Contains(":") == false)
                 {
-                    if (timeHour >= 12 && timeHour != 24)
-                    {
-                        timeHour -= 12;
-                        isMorning = false;
-                    }
-                    else if (timeHour == 0 || timeHour == 24)
-                    {
-                        timeHour = 12;
-                    }
+                    Console.WriteLine("Please enter a valid time in the format <hh>:<mm>");
+                    goto start;
+                }
+                else
+                {
+                    timeHour = Int32.Parse(userInput.Substring(0, 2));
+                    timeMinute = Int32.Parse(userInput.Substring(3));
 
-                    timeOutput += ones[timeHour];
+                    if (Enumerable.Range(0, 23).Contains(timeHour) && Enumerable.Range(0, 59).Contains(timeMinute))
+                    {
+                        if (timeHour >= 12 && timeHour != 24)
+                        {
+                            timeHour -= 12;
+                            isMorning = false;
+                        }
+                        else if (timeHour == 0 || timeHour == 24)
+                            timeHour = 12;
 
-                    if (timeMinute == 0)
-                    {
-                        timeOutput += " O'Clock";
-                    }
-                    else if (Enumerable.Range(1, 9).Contains(timeMinute))
-                    {
-                        timeOutput += " oh " + ones[timeMinute];
-                    }
-                    else if (Enumerable.Range(10, 19).Contains(timeMinute))
-                    {
-                        timeOutput += " " + ones[timeMinute];
-                    }
-                    else if (Enumerable.Range(20, 59).Contains(timeMinute))
-                    {
-                        if (timeMinute % 10 == 0)
-                        {
-                            timeOutput += " " + tens[timeMinute / 10];
-                        }
-                        else
-                        {
-                            timeOutput += " " + tens[(timeMinute - (timeMinute % 10)) / 10] + " " + ones[timeMinute % 10];
-                        }
+                        timeOutput += ones[timeHour];
+
+                        if (timeMinute == 0)
+                            timeOutput += " O'Clock";
+                        else if (Enumerable.Range(1, 9).Contains(timeMinute))
+                            timeOutput += " oh " + ones[timeMinute];
+                        else if (Enumerable.Range(10, 19).Contains(timeMinute))
+                            timeOutput += " " + ones[timeMinute];
+                        else if (Enumerable.Range(20, 59).Contains(timeMinute))
+                            if (timeMinute % 10 == 0)
+                                timeOutput += " " + tens[timeMinute / 10];
+                            else
+                                timeOutput += " " + tens[(timeMinute - (timeMinute % 10)) / 10] + " " + ones[timeMinute % 10];
                     }
 
                     if (isMorning != true)
-                    {
                         timeOutput += " PM.";
-                    }
                     else
-                    {
                         timeOutput += " AM.";
-                    }
+
                     Console.WriteLine(timeOutput);
                     goto start;
                 }
             }
-            catch (Exception e)
+            catch
             {
-                Console.WriteLine("Invalid", e);
+                Console.WriteLine("Please enter a valid time in the format <hh>:<mm>");
                 goto start;
             }
-
-            
         }
     }
 }
